@@ -1,32 +1,45 @@
 #!/usr/bin/env bash
-# Installs and configures Nginx web server with Holberton School page
-
-# Update package list and install Nginx
-apt-get update -y
-apt-get install -y nginx
-
-# Create custom index.html with required content
-echo "Holberton School" > /var/www/html/index.html
-
-# Configure Nginx to serve the correct file
-cat > /etc/nginx/sites-available/default <<EOF
-server {
-    listen 80 default_server;
-    listen [::]:80 default_server;
-
-    root /var/www/html;
-    index index.html;
-
-    server_name _;
-
-    location / {
-        try_files \$uri \$uri/ =404;
-    }
-}
-EOF
-
-# Restart Nginx without systemctl
-service nginx restart
-
-# Verify the configuration
-curl -s localhost | grep -q "Holberton School" && echo "Configuration successful!" || echo "Configuration failed"
+## Installs and configures Nginx to serve 'Holberton School' on port 80
+#
+## Verify root privileges
+#if [ "$(id -u)" -ne 0 ]; then
+#    echo "This script must be run as root. Try: sudo $0" >&2
+#        exit 1
+#        fi
+#
+#        # Install Nginx
+#        apt-get update -y
+#        apt-get install -y nginx
+#
+#        # Create HTML content
+#        mkdir -p /var/www/html
+#        echo "Holberton School" > /var/www/html/index.html
+#
+#        # Set proper permissions
+#        chown -R www-data:www-data /var/www/html
+#        chmod -R 755 /var/www/html
+#
+#        # Configure Nginx
+#        cat > /etc/nginx/sites-available/default <<EOF
+#        server {
+#            listen 80 default_server;
+#                listen [::]:80 default_server;
+#                    root /var/www/html;
+#                        index index.html;
+#                            server_name _;
+#                                location / {
+#                                        try_files \$uri \$uri/ =404;
+#                                            }
+#                                            }
+#                                            EOF
+#
+#                                            # Restart Nginx
+#                                            systemctl restart nginx
+#
+#                                            # Enable firewall (if needed)
+#                                            ufw allow 80/tcp
+#
+#                                            # Verify installation
+#                                            echo "Verification:"
+#                                            curl -sI localhost | grep "HTTP/1.1 200"
+#                                            curl -s localhost | grep "Holberton School"
