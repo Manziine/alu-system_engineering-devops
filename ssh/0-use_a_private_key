@@ -1,3 +1,5 @@
-#!/bin/bash
+#!/usr/bin/env bash
+## Connect to server using private key ~/.ssh/school as user arnold
+#
 #ssh -i ~/.ssh/school arnold@172.22.17.109
 
